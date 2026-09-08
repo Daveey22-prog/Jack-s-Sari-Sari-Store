@@ -76,12 +76,19 @@ function changeQty(id,d){
  i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.id!==id);
  renderCart();
 }
+function setQty(id,value){
+ const i=cart.find(x=>x.id===id); if(!i)return;
+ const qty=Number.parseInt(value,10);
+ if(!Number.isFinite(qty)||qty<=0){cart=cart.filter(x=>x.id!==id)}
+ else i.qty=Math.min(qty,i.stock);
+ renderCart();
+}
 function renderCart(){
  const box=document.getElementById("cartItems");
  if(!cart.length){box.innerHTML='<div class="empty">🛒<br>Your order is empty<br><small>Select products to start a sale.</small></div>'}
  else box.innerHTML=cart.map(i=>`<div class="cart-item">
  <div><h4>${i.name}</h4><small>${money(i.price)} each</small><div class="qty">
- <button onclick="changeQty(${i.id},-1)">−</button><span>${i.qty}</span><button onclick="changeQty(${i.id},1)">+</button></div></div>
+ <button onclick="changeQty(${i.id},-1)">−</button><input class="qty-input" type="number" min="1" max="${i.stock}" value="${i.qty}" onchange="setQty(${i.id},this.value)" onkeydown="if(event.key==='Enter')this.blur()"><button onclick="changeQty(${i.id},1)">+</button></div></div>
  <strong>${money(i.price*i.qty)}</strong></div>`).join("");
  const sub=cart.reduce((a,i)=>a+i.price*i.qty,0);
  document.getElementById("subtotal").textContent=money(sub);
