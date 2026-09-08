@@ -116,7 +116,7 @@ function showReceipt(s){
  <div class="receipt-row"><span>Payment</span><span>${s.payment}</span></div>
  <div class="receipt-row"><span>Received</span><span>${money(s.paid)}</span></div>
  <div class="receipt-row"><span>Change</span><span>${money(s.change)}</span></div><hr>
- <div class="receipt-footer">Thank you for dining with us!<br>Please come again.</div>`;
+ <div class="receipt-footer">Thank you!<br>Come again.</div>`;
  document.getElementById("receiptModal").classList.remove("hidden");
 }
 function viewSaleReceipt(id){
